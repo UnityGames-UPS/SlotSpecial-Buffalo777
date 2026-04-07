@@ -32,7 +32,7 @@ public class SocketIOManager : MonoBehaviour
 
   protected string SocketURI = null;
   // protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
-  protected string TestSocketURI = "http://localhost:5000/";
+  protected string TestSocketURI = "https://devrealtime.dingdinghouse.com/";
 
   [SerializeField]
   private string testToken;
@@ -513,7 +513,7 @@ public class Payload
   public List<Winning> winnings { get; set; }
 }
 
-[SerializeField]
+[Serializable]
 public class Winning
 {
   public int lineIndex { get; set; }
