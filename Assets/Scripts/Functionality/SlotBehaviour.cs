@@ -10,6 +10,7 @@ using System;
 
 public class SlotBehaviour : MonoBehaviour
 {
+  [SerializeField] private JSFunctCalls JSManager;
   [Header("Sprites")]
   [SerializeField]
   private Sprite[] myImages;
@@ -112,6 +113,11 @@ public class SlotBehaviour : MonoBehaviour
   [SerializeField] private GameObject TransitionImage;
   [SerializeField] private GameObject spinButtonAnim;
 
+  void Awake()
+  {
+    JSManager.RegisterVisibilityListener(gameObject.name);    
+  }
+
   private void Start()
   {
     IsAutoSpin = false;
@@ -151,7 +157,14 @@ public class SlotBehaviour : MonoBehaviour
 
 
   }
-
+  
+  public void OnFocusChanged(string value)
+  {
+    bool focused = value == "1";
+    Debug.Log("UNITY FOCUS CHANGED: " + value + " (focused: " + focused + ")");
+    audioController.CheckFocusFunction(focused, CheckSpinAudio);
+  }
+  
   void TurboToggle()
   {
     audioController.PlayButtonAudio();
