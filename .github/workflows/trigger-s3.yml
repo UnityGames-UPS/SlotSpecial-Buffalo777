@@ -12,5 +12,5 @@ jobs:
     with:
       s3_bucket: unity.build-prod
       s3_folder: SL-BS
-      cloudfront_distribution_id: ERDVMYSDM278F
+      cloudfront_distribution_id: EVFPZ9ROHP45P
       invalidate_paths: "/SL-BS/*"
