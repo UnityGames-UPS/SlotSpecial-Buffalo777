@@ -221,7 +221,7 @@ public class SlotBehaviour : MonoBehaviour
       yield return tweenroutine;
       yield return new WaitForSeconds(SpinDelay);
     }
-    WasAutoSpinOn = false;
+    //WasAutoSpinOn = false;
   }
 
   private IEnumerator StopAutoSpinCoroutine()
@@ -293,13 +293,15 @@ public class SlotBehaviour : MonoBehaviour
 
     if (WasAutoSpinOn)
     {
+      IsFreeSpin = false;
+      WasAutoSpinOn = false;
       AutoSpin();
     }
     else
     {
+      IsFreeSpin = false;
       ToggleButtonGrp(true);
     }
-    IsFreeSpin = false;
   }
   #endregion
 
@@ -646,6 +648,18 @@ public class SlotBehaviour : MonoBehaviour
     if (SocketManager.resultData.payload.freespin.isTriggered)
     {
       yield return new WaitForSeconds(1f);
+
+      // Pause auto spin BEFORE starting free spins so WasAutoSpinOn is ready when free spins end
+      if (AutoSpinRoutine != null)
+      {
+        WasAutoSpinOn = true;
+        IsAutoSpin = false;
+        if (AutoSpinStop_Button) AutoSpinStop_Button.gameObject.SetActive(false);
+        StopCoroutine(AutoSpinRoutine);
+        AutoSpinRoutine = null;
+        yield return new WaitForSeconds(0.1f);
+      }
+
       if (IsFreeSpin)
       {
         IsFreeSpin = false;
@@ -665,15 +679,6 @@ public class SlotBehaviour : MonoBehaviour
       FP_startObject.SetActive(false);
       uiManager.ClosePopup();
       FreeSpin(SocketManager.resultData.payload.freespin.count);
-
-      if (AutoSpinRoutine != null)
-      {
-        WasAutoSpinOn = true;
-        IsAutoSpin = false;
-        if (AutoSpinStop_Button) AutoSpinStop_Button.gameObject.SetActive(false);
-        StopCoroutine(AutoSpinRoutine);
-        yield return new WaitForSeconds(0.1f);
-      }
     }
 
     if (!IsAutoSpin && !IsFreeSpin)
@@ -913,4 +918,3 @@ public class SlotImage
 {
   public List<Image> slotImages = new List<Image>(10);
 }
-

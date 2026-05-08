@@ -5771,7 +5771,7 @@ MonoBehaviour:
   uiManager: {fileID: 377874625}
   RaycastBlocker: {fileID: 2125678731}
   JSManager: {fileID: 1771480575}
-  testToken: 34db019a5acd4e99b4849f72b5655010
+  testToken: ec383389bda44594b602826068713f95
 --- !u!1 &505613132
 GameObject:
   m_ObjectHideFlags: 0
@@ -23214,6 +23214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5425de25e7b479e921e2bb06840bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JSManager: {fileID: 1771480575}
   myImages:
   - {fileID: 21300000, guid: 17bc227e4d6704ff7a3f6ebf9e63d35c, type: 3}
   - {fileID: 21300000, guid: fa47f5e180d254c94afa3026338ec859, type: 3}
