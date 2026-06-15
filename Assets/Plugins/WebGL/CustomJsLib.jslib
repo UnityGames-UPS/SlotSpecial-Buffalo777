@@ -31,6 +31,15 @@ mergeInto(LibraryManager.library, {
         }
         window.ReactNativeWebView.postMessage(message);
       }
+      else if (typeof window !== "undefined" && window.parent) {
+        if (typeof window.parent.postMessage === "function"){
+          console.log("Calling window.parent.postMessage");
+          window.parent.postMessage({ 
+            type: message,
+            data: { }
+          }, "*");
+        }
+      }
       else if(window.parent){
         if(window.parent.dispatchReactUnityEvent){
           console.log("Inside window parent");
