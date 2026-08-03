@@ -21,27 +21,37 @@ public class AudioController : MonoBehaviour
         audioSpin_button.clip = clips[clips.Length-2];
     }
 
+    private bool isForceMuted = false;
+    private readonly Dictionary<AudioSource, bool> preFocusMuteState = new Dictionary<AudioSource, bool>();
+
     internal void CheckFocusFunction(bool focus, bool IsSpinning)
     {
-        if (!focus)
+        bool forceMute = !focus;
+        if (forceMute == isForceMuted) return;
+        isForceMuted = forceMute;
+
+        var sources = new[] { bg_adudio, audioPlayer_wl, audioPlayer_button, audioSpin_button, coins, bg_audioBonus };
+
+        if (forceMute)
         {
-            bg_adudio.Pause();
-            audioPlayer_wl.Pause();
-            audioPlayer_button.Pause();
+            foreach (var source in sources)
+            {
+                if (source == null) continue;
+                preFocusMuteState[source] = source.mute;
+                source.mute = true;
+            }
         }
         else
         {
-            if (!bg_adudio.mute) bg_adudio.UnPause();
-            if (IsSpinning)
+            foreach (var source in sources)
             {
-                if (!audioPlayer_wl.mute) audioPlayer_wl.UnPause();
+                if (source == null) continue;
+                source.mute = preFocusMuteState.TryGetValue(source, out bool prevMuted) ? prevMuted : source.mute;
             }
-            else
+            if (!IsSpinning)
             {
                 StopWLAaudio();
             }
-            if (!audioPlayer_button.mute) audioPlayer_button.UnPause();
-
         }
     }
 

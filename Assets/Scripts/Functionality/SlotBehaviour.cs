@@ -163,6 +163,7 @@ public class SlotBehaviour : MonoBehaviour
     bool focused = value == "1";
     Debug.Log("UNITY FOCUS CHANGED: " + value + " (focused: " + focused + ")");
     audioController.CheckFocusFunction(focused, CheckSpinAudio);
+    SocketManager?.HandleFocusChange(focused);
   }
   
   void TurboToggle()
@@ -311,6 +312,13 @@ public class SlotBehaviour : MonoBehaviour
     {
       uiManager.LowBalPopup();
     }
+  }
+
+  internal void UpdateBalanceDisplay(double newBalance)
+  {
+    currentBalance = newBalance;
+    if (Balance_text) Balance_text.text = newBalance.ToString("F3");
+    CompareBalance();
   }
 
 
